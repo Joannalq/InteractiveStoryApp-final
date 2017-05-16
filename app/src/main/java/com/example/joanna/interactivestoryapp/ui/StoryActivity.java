@@ -16,6 +16,7 @@ import com.example.joanna.interactivestoryapp.model.Story;
 
 public class StoryActivity extends AppCompatActivity {
     private static final String TAG=StoryActivity.class.getSimpleName();
+    private String name;
     private Story story;
     private ImageView storyImageView;
     private TextView storyTextView;
@@ -34,7 +35,7 @@ public class StoryActivity extends AppCompatActivity {
 
         //get data
         Intent intent=getIntent();
-        String name=intent.getStringExtra(getString(R.string.Key_name));
+        name=intent.getStringExtra(getString(R.string.Key_name));
         if(name==null||name.isEmpty()){
             name="name is empty";
         }
@@ -47,5 +48,12 @@ public class StoryActivity extends AppCompatActivity {
         Page page=story.getPage(pageNo);
         Drawable image= ContextCompat.getDrawable(this,page.getImageId());
         storyImageView.setImageDrawable(image);
+        String pageText=getString(page.getTextId());
+        //add name if placeholder included,won't add if not
+        pageText=String.format(pageText,name);
+        storyTextView.setText(pageText);
+        choice1Button.setText(page.getChoice1().getTextId());
+        choice2Button.setText(page.getChoice2().getTextId());
+
     }
 }
